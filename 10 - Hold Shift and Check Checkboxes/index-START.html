@@ -97,14 +97,33 @@
   </div>
 
   <script>
-    const items = [...document.querySelectorAll('.item')]
+    const checkboxes = document.querySelectorAll('.inbox [type="checkbox"]')
 
+    let lastChecked;
+
+    function handleCheck(e) {
+      // CHECK IF THEY HAD SHIFT KEY DOWN
+      // AND check that they are checking it
+      let inBetween = false;
+      if (e.shiftKey && this.checked) {
+        // loop over every single checkbox
+        checkboxes.forEach(checkbox => {
+          if (checkbox === this || checkbox === lastChecked) {
+            inBetween = !inBetween;
+          }
+
+          if (inBetween) {
+            checkbox.checked = true
+          }
+        })
+      }
+      lastChecked = this
+    }
+
+    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
     function selectSeveral(e) {
-      if (e.keyCode != 16) return
-      items.map(item => {
+      if (e.keyCode != 16) return;
 
-
-      })
 
     }
     window.addEventListener('keydown', selectSeveral);
